@@ -4,8 +4,10 @@ const User = mongoose.model(
   "User",
   new mongoose.Schema({
     username: String,
+    address: String,
     email: String,
-    password: String,
+    twitterUsername: String,
+    discordUsername: String,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
