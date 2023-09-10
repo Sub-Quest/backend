@@ -1,7 +1,7 @@
 {
-  "name": "node-js-jwt-auth-mongodb",
+  "name": "subquest-be",
   "version": "1.0.0",
-  "description": "Node.js + MongoDB: JWT Authentication & Authorization",
+  "description": "subquest-be",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,13 +13,17 @@
     "authentication",
     "mongodb"
   ],
-  "author": "bezkoder",
+  "author": "SubQuest",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.11.2"
+    "mongoose": "^6.11.2",
+    "@polkadot/api": "^9.13.6",
+    "@polkadot/api-contract": "^9.13.6",
+    "@polkadot/keyring": "^10.3.1",
+    "@polkadot/util": "^10.3.1"
   }
 }
