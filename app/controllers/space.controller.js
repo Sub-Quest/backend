@@ -1,14 +1,14 @@
 const db = require("../models")
 const Space = db.space;
 
-exports.getSpaceById = async(req, resp) => {
-    const {id} = req.body;
+exports.getSpaceById = async(req, res) => {
+    const {id} = req.query.id;
     const space = await Space.getSpaceById(id);
     if (!space) {
-        resp.status(404).send({ message: "Space not found" });
+        res.status(404).send({ message: "Space not found" });
         return;
     }
-    resp.status(200).send(
+    res.status(200).send(
         {
             space: space,
         }
@@ -16,9 +16,9 @@ exports.getSpaceById = async(req, resp) => {
     return
 }
 
-exports.getAllSpace = async(req, resp) => {
+exports.getAllSpace = async(req, res) => {
     const spaces = await Space.getSpaces();
-    resp.status(200).send(
+    res.status(200).send(
         {
             spaces: spaces
         }
@@ -26,8 +26,8 @@ exports.getAllSpace = async(req, resp) => {
     return
 }
 
-exports.searchSpace = async(req, resp) => {
-    const {text} = req.body;
+exports.searchSpace = async(req, res) => {
+    const {text} = req.query.q;
     let spaces;
     if (text == "") {
          spaces = await Space.getSpaces();
@@ -35,7 +35,7 @@ exports.searchSpace = async(req, resp) => {
          spaces = await Space.findSpaceByName(text);
     }
 
-    resp.status(200).send(
+    res.status(200).send(
         {
             spaces: spaces
         }
@@ -43,10 +43,10 @@ exports.searchSpace = async(req, resp) => {
     return
 }
 
-exports.createSpace = async(req, resp) => {
+exports.createSpace = async(req, res) => {
     const {spaces} = req.body;
     await Space.createSpaces(spaces);
-    resp.status(200).send(
+    res.status(200).send(
         {
             message: "create space successfully"
         }

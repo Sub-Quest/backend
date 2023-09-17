@@ -8,6 +8,7 @@ db.mongoose = mongoose;
 db.user = require("./user.model");
 db.role = require("./role.model");
 db.space = require("./space.model");
+db.campain = require("./campaign.model")
 
 db.ROLES = ["user", "admin", "moderator"];
 
