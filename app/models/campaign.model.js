@@ -17,5 +17,5 @@ module.exports = Campaign;
 
 export const getCampains = () => Campaign.find().all();
 export const getCampainById = (id) => Campaign.findById(id);
-export const getCampainsBySpaceId = (spaceId) => Campaign.where('spaceId').find().all();
+export const getCampainsBySpaceId = (spaceId) => Campaign.where({spaceId: spaceId}).find().all();
 export const findCampainsByName = (input) => Campaign.find({$text: {$search: input}}).all();
