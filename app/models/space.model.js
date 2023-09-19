@@ -21,9 +21,11 @@ const Space = mongoose.model(
 
 module.exports = Space;
 
-export const getSpaces = () => Space.find().all();
-export const getSpaceById = (id) => Space.findById(id);
-export const getSpaceByCategories = (categories) => Space.find().where('categories').in(categories);
-export const findSpaceByName = (input) => Space.find({$text: {$search: input}});
-export const createSpaces = (spaces) => Space.bulkSave(spaces)
-export const updateSpaceById = (id, space) =>Space.findByIdAndUpdate(id, space)
+module.exports = {
+  getSpaces: () => Space.find().all(),
+  getSpaceById: (id) => Space.findById(id),
+  getSpaceByCategories: (categories) => Space.find().where('categories').in(categories),
+  findSpaceByName: (input) => Space.find({ $text: { $search: input } }),
+  createSpaces: (spaces) => Space.bulkSave(spaces),
+  updateSpaceById: (id, space) => Space.findByIdAndUpdate(id, space),
+};

@@ -15,7 +15,9 @@ const Campaign = mongoose.model(
 
 module.exports = Campaign;
 
-export const getCampains = () => Campaign.find().all();
-export const getCampainById = (id) => Campaign.findById(id);
-export const getCampainsBySpaceId = (spaceId) => Campaign.where({spaceId: spaceId}).find().all();
-export const findCampainsByName = (input) => Campaign.find({$text: {$search: input}}).all();
+module.exports = {
+  getCampains: () => Campaign.find().all(),
+  getCampainById: (id) => Campaign.findById(id),
+  getCampainsBySpaceId: (spaceId) => Campaign.where({ spaceId: spaceId }).find().all(),
+  findCampainsByName: (input) => Campaign.find({ $text: { $search: input } }).all(),
+};
