@@ -18,8 +18,10 @@ exports.getSpaceById = async(req, res) => {
 
 exports.getAllSpace = async(req, res) => {
     const spaces = await Space.getSpaces();
+    const total = await Space.countDocuments();
     res.status(200).send(
         {
+            total: total,
             spaces: spaces
         }
     );
@@ -29,14 +31,18 @@ exports.getAllSpace = async(req, res) => {
 exports.searchSpace = async(req, res) => {
     const {text} = req.query.q;
     let spaces;
+    let total = 0;
     if (text == "") {
-         spaces = await Space.getSpaces();
+        total = await Space.countDocuments();
+        spaces = await Space.getSpaces();
     } else {
+        total = await Space.countDocuments({ $text: { $search: input } });
          spaces = await Space.findSpaceByName(text);
     }
 
     res.status(200).send(
         {
+            total: total,
             spaces: spaces
         }
     );
@@ -52,4 +58,30 @@ exports.createSpace = async(req, res) => {
         }
     )
     return
+}
+
+exports.getSpaceLimit = async(req, res) => {
+    var page = parseInt(req.query.page) || 0; //for next page pass 1 here
+    var limit = parseInt(req.query.limit) || 3;
+    var query = {};
+    Space.find(query)
+      .sort({ update_at: -1 })
+      .skip(page * limit) //Notice here
+      .limit(limit)
+      .exec((err, doc) => {
+        if (err) {
+          return res.json(err);
+        }
+        Space.countDocuments(query).exec((count_error, count) => {
+          if (err) {
+            return res.json(count_error);
+          }
+          return res.json({
+            total: count,
+            page: page,
+            pageSize: doc.length,
+            spaces: doc
+          });
+        });
+      });
 }
