@@ -28,7 +28,7 @@ exports.signin = async (req, res) => {
     });
     await newUser.save();
   }
-  const token = jwt.sign({ id: userFound.id }, config.secret, {
+  const token = jwt.sign({ id: userFound._id }, config.secret, {
     algorithm: "HS256",
     allowInsecureKeySizes: true,
     expiresIn: 86400, // 24 hours
