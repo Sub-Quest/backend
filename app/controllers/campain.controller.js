@@ -1,5 +1,7 @@
 const db = require("../models")
 const Campain = db.campain;
+const Task = require("../utils/task")
+
 
 exports.getCampainById = async(req, res) => {
     const {id} = req.query.id
@@ -18,9 +20,10 @@ exports.getCampainById = async(req, res) => {
 exports.getCampainsBySpaceId = async(req, res) => {
     const {spaceId} = req.query.spaceId;
     const campains = await Campain.getCampainsBySpaceId(spaceId)
-
+    const total = await Campain.countDocuments({ spaceId: spaceId })
     res.status(200).send(
         {
+            total: total,
             campains: campains
         }
     )
@@ -40,4 +43,22 @@ exports.searchCampain = async(req, res) => {
          campains: campains,
     })
     return
+}
+
+exports.createCampain = async(req, res) => {
+    const {campain} = req.body;
+    await Campain.create(campain)
+    res.status(200).send(
+        {
+            message: "create space successfully"
+        }
+    )
+}
+
+exports.getTaskArray = async(req, res) => {
+    res.status(200).send(
+        {
+            tasks: Task
+        }
+    )
 }

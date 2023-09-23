@@ -1,5 +1,10 @@
 const mongoose = require("mongoose");
 
+const Task = new mongoose.Schema ({
+    task: Object,
+    verify: Boolean,
+})
+
 const Campaign = mongoose.model(
   "Campaign",
   new mongoose.Schema({
@@ -9,7 +14,9 @@ const Campaign = mongoose.model(
     endTime: { type: Date, index: true },
     coverImageUrl: String,
     description: String,
-    categories: { type: Array, index: true }
+    categories: { type: Array, index: true },
+    tasks: [Task],
+    reward: Object,
   })
 );
 
@@ -20,4 +27,5 @@ module.exports = {
   getCampainById: (id) => Campaign.findById(id),
   getCampainsBySpaceId: (spaceId) => Campaign.where({ spaceId: spaceId }).find().all(),
   findCampainsByName: (input) => Campaign.find({ $text: { $search: input } }).all(),
+  saveCampain: (campain) => Campaign.create(campain)
 };

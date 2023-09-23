@@ -26,6 +26,6 @@ module.exports = {
   getSpaceById: (id) => Space.findById(id),
   getSpaceByCategories: (categories) => Space.find().where('categories').in(categories),
   findSpaceByName: (input) => Space.find({ $text: { $search: input } }),
-  createSpaces: (spaces) => Space.bulkSave(spaces),
+  createSpaces: (space) => Space.create(space),
   updateSpaceById: (id, space) => Space.findByIdAndUpdate(id, space),
 };
