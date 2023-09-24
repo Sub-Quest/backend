@@ -4,9 +4,7 @@ const User = db.user;
 
 var jwt = require("jsonwebtoken");
 const { SIGN_MESSAGE } = require("../utils/constant");
-const {
-  checkIsValidSignature,
-} = require("../utils/blockchain");
+const { checkIsValidSignature } = require("../utils/blockchain");
 
 exports.signin = async (req, res) => {
   const { address, signature } = req.body;
@@ -22,19 +20,20 @@ exports.signin = async (req, res) => {
     res.status(400).send({ message: "Signature invalid!" });
     return;
   }
+  let newUser = null;
   if (!userFound) {
-    const newUser = new User({
+    newUser = new User({
       address,
     });
     await newUser.save();
   }
-  const token = jwt.sign({ id: userFound._id }, config.secret, {
+  const token = jwt.sign({ id: userFound?._id || newUser?._id }, config.secret, {
     algorithm: "HS256",
     allowInsecureKeySizes: true,
     expiresIn: 86400, // 24 hours
   });
   res.status(200).send({
-    id: userFound._id,
+    id: userFound?._id || newUser?._id,
     address,
     accessToken: token,
   });
